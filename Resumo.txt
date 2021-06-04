@@ -1,0 +1,63 @@
+RESUMO DOS DADOS
+
+ABERTURA X FECHAMENTO
+Variação
+Mínima = -15%
+Máxima = 33%
+50% dos dias o fechamento é menor que a abertura
+
+FECHAMENTO (dia anterior) X ABERTURA (dias posterior)
+28% dos dias o fechamento anterior é igual a abertura posterior
+44% de probabilidade de o fechamento anterior ser menor que a abertura posterior
+conclusão - fechamento anterior não é parâmetro para "prever" a abertura posterior
+
+ABERTURA X BAIXA
+Variação (sempre será negativa)
+Máxima de -19% em um dia, sendo a média de -1%
+Em apenas 18% das ocorrências a baixa foi o mesmo valor da abertura
+
+ABERTURA X ALTA
+Variação (sempre será positiva)
+Máxima de 34% em um dia, sendo a média de 1%
+Em apenas 17% das ocorrências a alta foi o mesmo valor da abertura
+
+BASELINE
+
+Considerarei um baseline que varie aleatoriamente entre os valores máximo e mínimo das variáveis independentes, mas essa baseline não foi satisfatória.
+
+A melhor baseline considera a média móvel de 5 dias para todas as variáveis target:
+
+R2 Score para FECHAMENTO Média móvel 5
+0.9752927508624465
+Erro Médio Quadrático para FECHAMENTO Média móvel 5
+0.0002070568135448706
+
+R2 Score para BAIXA Média móvel 5
+0.9758402555749194
+Erro Médio Quadrático para BAIXA Média móvel 5
+0.00020917228104033755
+
+R2 Score para ALTA Média móvel 5
+0.9804669174835944
+Erro Médio Quadrático para ALTA Média móvel 5
+0.00016272707570038692
+
+MODELOS
+LINEAR SVR
+O modelo se apresentou muito instável, variando significativamente a quantidade de erros
+ORIGINAL - NÃO BATE BASELINE
+NORMALIZADO - NÃO BATE O BASELINE
+
+LASSO
+Modelo bem estável, mesmo quando inserida a seleção aleatória
+ORIGINAL - BASELINE IGUAL PARA FECHAMENTO, MELHOR PARA BAIXA E ALTA (BEM MELHOR PARA A ALTA)
+NORMALIZADO - NÃO VEJO MAIS SENTIDO EM UTILIZAR OS DADOS NORMALIZADOS
+TIMESERIES CV - apresentou redução do erro nas últimas iterações, com maior estabilidade do erro em prever o fechamento e a alta; com grande variação do erro na previsão da baixa
+
+RIDGE
+Modelo bem estável e apresentou os mesmos resultados do que o Lasso
+ORIGINAL - BASELINE IGUAL PARA FECHAMENTO, MELHOR PARA BAIXA E ALTA (BEM MELHOR PARA  A ALTA)
+TIMESERIES CV - apresentou redução do erro nas últimas iterações, com maior estabilidade do erro em prever o fechamento e a alta; com grande variação do erro na previsão da baixa
+
+Embora Lasso e Ridge apresentem resultados e padrões muito semelhantes, o erro quadrático do Ridge é menor desde a primeira iteração na validação cruzada da time series, inclusive para prever a baixa que é o maior problema do modelo.
+Por isso acredito que seja ele o melhor para treinar os hiper parâmetros para por em "produção".
